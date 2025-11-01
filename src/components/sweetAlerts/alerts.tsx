@@ -1,18 +1,15 @@
 import Swal from "sweetalert2";
 import withReactContent, { SweetAlertReactContent } from "sweetalert2-react-content";
-import { ReactNode } from "react"; // Use ReactNode para tipar elementos JSX/React
+import { ReactNode } from "react";
 
-// Corrigido: Tipar MySwal para garantir que os métodos do React Content estejam disponíveis
 const MySwal: SweetAlertReactContent = withReactContent(Swal);
 
 interface AlertOptions {
     title?: string;
-    // O texto de entrada pode ser string ou um ReactNode (o que inclui JSX.Element)
     text?: string | ReactNode; 
     timer?: number;
 }
 
-// 1. Corrigido: A tipagem de retorno deve ser ReactNode e a chave deve ser única (key)
 const textList = (msgs: string[]): ReactNode => {
     return (
         <div className="flex flex-col ">
@@ -59,7 +56,7 @@ const Alerts = {
             confirmButtonColor: "#ef4444",
             timer,
             timerProgressBar: true,
-            showConfirmButton: true,
+            showConfirmButton: false,
         });
     },
 };

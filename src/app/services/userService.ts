@@ -1,5 +1,5 @@
 import axios from "../../api/axios"
-import { getTokenInCookit, setCookie } from "../utils/cookiesUtil"
+import { setCookie } from "../utils/cookiesUtil"
 
 export const login = async (email: string, password: string) => {
     try {

@@ -43,7 +43,9 @@ export default function LoginPage() {
             return
         }
 
-        Alerts.success({ title: "Sucesso", text: "Login realizado com sucesso" })
+        Alerts.success({ title: "Sucesso", text: "Login realizado com sucesso", timer: 1000 })
+        
+        route.push("/")
     }
 
     const redirectToRegister = () => route.push("/register")
