@@ -1,16 +1,19 @@
 import Swal from "sweetalert2";
-import withReactContent, { SweetAlertReactContent } from "sweetalert2-react-content";
-import { ReactNode } from "react";
+import withReactContent from "sweetalert2-react-content";
+import type { ReactSweetAlertOptions } from "sweetalert2-react-content";
+import type { ReactElement } from "react";
 
-const MySwal: SweetAlertReactContent = withReactContent(Swal);
+type AlertContent = string | ReactElement;
+
+const MySwal = withReactContent(Swal);
 
 interface AlertOptions {
     title?: string;
-    text?: string | ReactNode; 
+    text?: AlertContent;
     timer?: number;
 }
 
-const textList = (msgs: string[]): ReactNode => {
+const textList = (msgs: string[]): ReactElement => {
     return (
         <div className="flex flex-col ">
             {msgs && msgs.map((txt, index) => (
@@ -22,9 +25,8 @@ const textList = (msgs: string[]): ReactNode => {
 
 const Alerts = {
     success: ({ title = "Sucesso!", text = "", timer = 2000 }: AlertOptions = {}) => {
-        MySwal.fire({
+        const options: ReactSweetAlertOptions = {
             title,
-            text, 
             icon: "success",
             background: "background",
             color: "white",
@@ -32,24 +34,31 @@ const Alerts = {
             timer,
             timerProgressBar: true,
             showConfirmButton: false,
-        });
+        };
+
+        if (typeof text === "string" && text) {
+            options.text = text;
+        } else if (text) {
+            options.html = text;
+        }
+
+        MySwal.fire(options);
     },
 
     // Alert de erro
     error: ({ title = "Erro!", text = "", timer = 3000 }: AlertOptions = {}) => {
-        const textAsString = String(text);
+        const textAsString = typeof text === "string" ? text : String(text ?? "");
 
         const shouldBeList = textAsString.includes(";");
 
-        const alertText = shouldBeList
+        const alertText: AlertContent = shouldBeList
             ? textList(textAsString.split(";").map(t => t.trim()).filter(t => t !== ''))
             : textAsString;
 
         const isString = typeof alertText === 'string';
 
-        MySwal.fire({
+        const options: ReactSweetAlertOptions = {
             title,
-            ...(isString ? { text: alertText } : { html: alertText }),
             icon: "error",
             background: "background",
             color: "white",
@@ -57,7 +66,15 @@ const Alerts = {
             timer,
             timerProgressBar: true,
             showConfirmButton: false,
-        });
+        };
+
+        if (isString && alertText) {
+            options.text = alertText;
+        } else if (!isString) {
+            options.html = alertText;
+        }
+
+        MySwal.fire(options);
     },
 };
 

@@ -1,9 +1,9 @@
-import { WalletType } from "../types/walletType"
+import { TypeWallet } from "../types/walletType"
 
-export const setTypeMasc = (type: WalletType) => {
+export const setTypeMasc = (type: TypeWallet) => {
     if (type === "checking") return "Corrente"
     else if (type === "investment") return "Investimento"
-    else if (type === "savings") return "Reserva"
+    else return "Reserva"
 }
 
 export const getOnlyDate = (dateInString: string) => {

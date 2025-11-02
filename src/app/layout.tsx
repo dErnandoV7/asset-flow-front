@@ -1,5 +1,7 @@
 import { ThemeProvider } from "../components/theme-provider";
 import type { Metadata } from "next";
+import { AppProvider } from "./context/dataContext";
+
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -15,14 +17,16 @@ export default function RootLayout({
   return (
     <html lang="pt-br" suppressHydrationWarning>
       <body className="min-h-screen">
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          {children}
-        </ThemeProvider>
+        <AppProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            {children}
+          </ThemeProvider>
+        </AppProvider>
       </body>
     </html>
   );

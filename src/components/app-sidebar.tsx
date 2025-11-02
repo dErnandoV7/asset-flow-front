@@ -1,6 +1,7 @@
 "use client"
 
 import { Sidebar, SidebarContent, SidebarGroup, SidebarMenu, SidebarMenuItem, SidebarGroupContent, SidebarHeader, SidebarSeparator, SidebarFooter, SidebarGroupLabel } from "@/components/ui/sidebar"
+import { SideBarState } from "@/components/ui/sidebar"
 import { User, Wallet, Logs, CircleDollarSign, Sun, Moon, LogOut } from "lucide-react"
 import { useTheme } from "next-themes"
 import { useRouter } from "next/navigation"
@@ -8,13 +9,15 @@ import { resetTokenInCookie } from "@/app/utils/cookiesUtil"
 
 const menus = [
     { name: "Perfil", icon: User, path: "/perfil" },
-    { name: "Carteria", icon: Wallet, path: "/" },
-    { name: "Ativos", icon: CircleDollarSign, path: "ativos" },
-    { name: "Transferências", icon: Logs, path: "transferencias" },
+    { name: "Carterias", icon: Wallet, path: "/" },
+    { name: "Ativos", icon: CircleDollarSign, path: "/asset" },
+    { name: "Transferências", icon: Logs, path: "/transfers" },
 ]
 
 export function AppSidebar() {
     const { setTheme } = useTheme()
+    const { toggleSidebar, isMobile } = SideBarState()
+
     const route = useRouter()
 
     const handleButtonLogOut = () => {
@@ -23,6 +26,7 @@ export function AppSidebar() {
     }
 
     const handleItemMenu = (path: string) => {
+        if (isMobile) toggleSidebar()
         if (path) route.push(path)
     }
 
@@ -48,11 +52,17 @@ export function AppSidebar() {
                     <SidebarGroupLabel className="text-md">Preferências</SidebarGroupLabel>
                     <SidebarGroupContent>
                         <SidebarMenu>
-                            <SidebarMenuItem className="flex items-center gap-2 cursor-pointer hover:bg-muted transition-colors rounded-xl p-2 px-3 text-sm" onClick={() => setTheme("dark")}>
+                            <SidebarMenuItem className="flex items-center gap-2 cursor-pointer hover:bg-muted transition-colors rounded-xl p-2 px-3 text-sm" onClick={() => {
+                                if (isMobile) toggleSidebar()
+                                setTheme("dark")
+                            }}>
                                 <Moon size={18} />
                                 <span>Modo Escuro</span>
                             </SidebarMenuItem>
-                            <SidebarMenuItem className="flex items-center gap-2 cursor-pointer hover:bg-muted transition-colors rounded-xl p-2 px-3 text-sm" onClick={() => setTheme("light")}>
+                            <SidebarMenuItem className="flex items-center gap-2 cursor-pointer hover:bg-muted transition-colors rounded-xl p-2 px-3 text-sm" onClick={() => {
+                                if (isMobile) toggleSidebar()
+                                setTheme("light")
+                            }}>
                                 <Sun size={18} />
                                 <span>Modo Claro</span>
                             </SidebarMenuItem>

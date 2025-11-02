@@ -1,9 +1,10 @@
 import axios from "../../api/axios"
 import { getTokenInCookie } from "../utils/cookiesUtil"
-import { CreateWallet, Wallet, WalletType } from "../types/walletType"
+import { CreateWallet, Wallet } from "../types/walletType"
 import { setTypeMasc, getOnlyDate } from "../utils/walletUtils"
+import { ApiResponse } from "../types/apiResponse"
 
-export const getWalletAll = async () => {
+export const getWalletAll = async (): Promise<ApiResponse<Wallet>> => {
     const token = getTokenInCookie()
 
     try {
@@ -12,11 +13,10 @@ export const getWalletAll = async () => {
                 Authorization: `Bearer ${token}`
             }
         })
-        
-        const wallets = res.data.wallets
 
-        const walletsMap = wallets.map((wallet: any) => {
+        const walletsMap = res.data.wallets.map((wallet: any): Wallet => {
             return {
+                id: wallet.id,
                 name: wallet.name,
                 type: wallet.type,
                 typeMasq: setTypeMasc(wallet.type),
@@ -25,15 +25,16 @@ export const getWalletAll = async () => {
             }
         })
 
-        return walletsMap
+        return { success: true, data: walletsMap }
 
-    } catch (error) {
-        console.log(error)
-        return { error: true, errorData: error }
+    } catch (error: any) {
+        const message = error.response.data.message || "Erro ao buscar carteiras"
+
+        return { success: false, error: message }
     }
 }
 
-export const createWallet = async (data: CreateWallet) => {
+export const createWallet = async (data: CreateWallet): Promise<ApiResponse<any>> => {
     const token = getTokenInCookie()
 
     try {
@@ -43,9 +44,10 @@ export const createWallet = async (data: CreateWallet) => {
             }
         })
 
-        return res
+        return { success: true }
 
-    } catch (error) {
-        return { error: true, errorData: error }
+    } catch (error: any) {
+        const message = error.response.data.message || "Erro ao criar carteira"
+        return { success: false, error: message }
     }
 }

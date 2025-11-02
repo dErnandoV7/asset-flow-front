@@ -39,11 +39,10 @@ const CreateWalletModal = ({ createdNewWallet }: CreateWalletModal) => {
             return
         }
 
-        const res: any = await createWallet(data as CreateWallet)
+        const { success, error } = await createWallet(data as CreateWallet)
 
-        if (res.error) {
-            const message = res.errorData.response.data.message
-            Alerts.error({ title: "Erro", text: message })
+        if (!success) {
+            Alerts.error({ title: "Erro", text: error })
 
             return
         }

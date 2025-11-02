@@ -32,19 +32,18 @@ export default function LoginPage() {
 
         setLoading(true)
 
-        const res: any = await login(email, password)
+        const { success, error } = await login(email, password)
 
         setLoading(false)
 
-        if (res.error) {
-            const message = res.dataError.response.data.message
-            Alerts.error({ title: "Erro", text: message })
+        if (!success) {
+            Alerts.error({ title: "Erro", text: error })
 
             return
         }
 
         Alerts.success({ title: "Sucesso", text: "Login realizado com sucesso", timer: 1000 })
-        
+
         route.push("/")
     }
 

@@ -1,7 +1,8 @@
 import axios from "../../api/axios"
 import { setCookie } from "../utils/cookiesUtil"
+import { ApiResponse } from "../types/apiResponse"
 
-export const login = async (email: string, password: string) => {
+export const login = async (email: string, password: string): Promise<ApiResponse<any>> => {
     try {
         const data = { email, password }
         const res = await axios.post("/login-user", data)
@@ -9,21 +10,25 @@ export const login = async (email: string, password: string) => {
         const token = res.data.token
         setCookie("token", token, 7)
 
-        return res
+        return { success: true }
 
-    } catch (error) {
-        return { error: true, dataError: error }
+    } catch (error: any) {
+        const message = error.response.data.message = "Erro ao realizar login"
+
+        return { success: false, error: message }
     }
 }
 
-export const registerUser = async (email: string, password: string, name: string) => {
+export const registerUser = async (email: string, password: string, name: string): Promise<ApiResponse<any>> => {
     try {
         const data = { email, password, name }
         const res = await axios.post("/create-user", data)
 
-        return res
+        return { success: true }
 
-    } catch (error) {
-        return { error: true, dataError: error }
+    } catch (error: any) {
+        const message = error.response.data.message || "Erro ao registrar conta"
+
+        return { success: false, error: message }
     }
 }

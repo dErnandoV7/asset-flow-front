@@ -1,14 +1,15 @@
 export type CreateWallet = {
     name: string,
-    type: WalletType
+    type: TypeWallet
 }
 
-export type WalletType = "checking" | "savings" | "investment"
+export type TypeWallet = "checking" | "savings" | "investment"
 
 export type Wallet = {
+    id: number,
     name: string,
-    type: WalletType,
+    type: TypeWallet,
     typeMasq: string,
-    createdAt: string,
     countAsset: number
+    createdAt: string,
 }

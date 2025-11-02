@@ -1,7 +1,7 @@
 import z from "zod"
-import { WalletType } from "../types/walletType"
+import { TypeWallet } from "../types/walletType"
 
-const typesWallet: WalletType[] = ["checking", "investment", "savings"]
+const typesWallet: TypeWallet[] = ["checking", "investment", "savings"]
 
 export const createWalletSchema = z.object({
     name: z.string()

@@ -33,13 +33,12 @@ export default function RegisterPage() {
 
         setLoading(true)
 
-        const res: any = await registerUser(email, password, name)
+        const { success, error } = await registerUser(email, password, name)
 
         setLoading(false)
 
-        if (res.error) {
-            const message = res.dataError.response.data.message
-            Alerts.error({ title: "Erro", text: message })
+        if (!success) {
+            Alerts.error({ title: "Erro", text: error })
 
             return
         }

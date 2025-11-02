@@ -1,17 +1,19 @@
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "./ui/card"
-import { Wallet, CircleDollarSign, Logs } from "lucide-react"
+import { Wallet, Logs } from "lucide-react"
 import { Badge } from "./ui/badge"
 import { Button } from "./ui/button"
+import CreateAssetModal from "@/components/modal/createAssetModal"
 
 interface WalletCard {
     name: string,
     type: string,
     countAssets: number,
-    createdAt: string
+    createdAt: string,
+    walletId: number
 }
 
-const WalletCard = ({ countAssets, createdAt, name, type }: WalletCard) => {
-    console.log(countAssets, type)
+const WalletCard = ({ countAssets, createdAt, name, type, walletId }: WalletCard) => {
+
     return (
         <>
             <Card>
@@ -42,11 +44,7 @@ const WalletCard = ({ countAssets, createdAt, name, type }: WalletCard) => {
                         <span>Ver ativos</span>
                     </Button>
 
-                    <Button variant={"secondary"} className="flex justify-center items-center p-2 py-1 text-xs cursor-pointer">
-                        <CircleDollarSign />
-                        <span>Comprar ativos</span>
-                    </Button>
-
+                    <CreateAssetModal walletId={walletId}/>
                 </CardFooter>
             </Card>
         </>

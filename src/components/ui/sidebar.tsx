@@ -53,6 +53,11 @@ function useSidebar() {
   return context
 }
 
+export const SideBarState = () => {
+  const { toggleSidebar, isMobile } = useSidebar()
+  return { toggleSidebar, isMobile }
+}
+
 function SidebarProvider({
   defaultOpen = true,
   open: openProp,
