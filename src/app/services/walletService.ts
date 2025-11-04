@@ -1,4 +1,4 @@
-import axios from "../../api/axios"
+import { apiBack } from "../../api/axios"
 import { getTokenInCookie } from "../utils/cookiesUtil"
 import { CreateWallet, Wallet } from "../types/walletType"
 import { setTypeMasc, getOnlyDate } from "../utils/walletUtils"
@@ -8,7 +8,7 @@ export const getWalletAll = async (): Promise<ApiResponse<Wallet>> => {
     const token = getTokenInCookie()
 
     try {
-        const res = await axios.get("/wallets", {
+        const res = await apiBack.get("/wallets", {
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -38,7 +38,7 @@ export const createWallet = async (data: CreateWallet): Promise<ApiResponse<any>
     const token = getTokenInCookie()
 
     try {
-        const res = await axios.post("/create-wallet", data, {
+        const res = await apiBack.post("/create-wallet", data, {
             headers: {
                 Authorization: `Bearer ${token}`
             }

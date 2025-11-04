@@ -8,5 +8,6 @@ export type Asset = {
     purchasePrice: number,
     quantity: number,
     type: string,
+    typeCanonicalName: string,
     walletName: string
 }

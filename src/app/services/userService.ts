@@ -1,11 +1,11 @@
-import axios from "../../api/axios"
+import { apiBack } from "../../api/axios"
 import { setCookie } from "../utils/cookiesUtil"
 import { ApiResponse } from "../types/apiResponse"
 
 export const login = async (email: string, password: string): Promise<ApiResponse<any>> => {
     try {
         const data = { email, password }
-        const res = await axios.post("/login-user", data)
+        const res = await apiBack.post("/login-user", data)
 
         const token = res.data.token
         setCookie("token", token, 7)
@@ -22,7 +22,7 @@ export const login = async (email: string, password: string): Promise<ApiRespons
 export const registerUser = async (email: string, password: string, name: string): Promise<ApiResponse<any>> => {
     try {
         const data = { email, password, name }
-        const res = await axios.post("/create-user", data)
+        const res = await apiBack.post("/create-user", data)
 
         return { success: true }
 

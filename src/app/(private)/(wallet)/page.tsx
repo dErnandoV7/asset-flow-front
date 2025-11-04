@@ -10,7 +10,7 @@ import { Wallet as WalletType } from "@/app/types/walletType"
 import { AssetIdentity } from "@/app/types/assetType"
 import Alerts from "@/components/sweetAlerts/alerts"
 import { useAppContext } from "@/app/context/dataContext"
-import LoadingWallet from "@/components/loadingElement"
+import LoadingWallet from "@/components/loadingWallet"
 
 export default function WalletPage() {
     const { dispatch } = useAppContext()
@@ -44,8 +44,8 @@ export default function WalletPage() {
             return
         }
 
-        if (!Array.isArray(data)) return
-
+        if (!data) return
+        console.log(data)
         dispatch({ type: "SET_ASSETS_IDENTITY", payload: data })
 
         setIdentitys(data)

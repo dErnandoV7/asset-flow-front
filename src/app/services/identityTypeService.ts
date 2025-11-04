@@ -1,4 +1,4 @@
-import axios from "../../api/axios"
+import { apiBack } from "../../api/axios"
 import { getTokenInCookie } from "../utils/cookiesUtil"
 import { ApiResponse } from "../types/apiResponse"
 import { AssetIdentity } from "../types/assetType"
@@ -7,7 +7,7 @@ export const getIdentitysAll = async (): Promise<ApiResponse<AssetIdentity>> => 
     const token = getTokenInCookie()
 
     try {
-        const res = await axios.get("/assets-identitys", {
+        const res = await apiBack.get("/assets-identitys", {
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -22,7 +22,7 @@ export const getIdentitysAll = async (): Promise<ApiResponse<AssetIdentity>> => 
         })
 
         return { success: true, data: assetsIdentityMap }
-        
+
     } catch (error: any) {
         const message = error.response.data.message || "Erro ao buscar identificadores de ativos"
 

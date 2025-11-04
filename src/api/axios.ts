@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const api = axios.create({
+export const apiBack = axios.create({
     baseURL: "http://localhost:3030",
     headers: {
         "Content-Type": "application/json",
@@ -8,5 +8,10 @@ const api = axios.create({
     withCredentials: true,
 });
 
+export const apiCript = axios.create({
+    baseURL: "https://api.coingecko.com/api/v3/simple",
+    headers: {
+        "Content-type": "application/json"
+    }
+})
 
-export default api;
