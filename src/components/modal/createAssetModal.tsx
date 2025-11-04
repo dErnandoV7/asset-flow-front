@@ -1,4 +1,4 @@
-import { CircleDollarSign } from "lucide-react"
+import { CircleDollarSign, Wallet } from "lucide-react"
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "../ui/dialog"
 import { Button } from "../ui/button"
 import { Input } from "@/components/ui/input"
@@ -9,10 +9,12 @@ import { useEffect, useState } from "react"
 import { createAsset } from "@/app/services/assetService"
 import { useAppContext } from "@/app/context/dataContext"
 import { DataList } from "../inputs/dataList"
+import { Badge } from "../ui/badge"
 
 interface CreateAssetModal {
     createdNewAsset?: () => void,
-    walletId: number
+    walletId: number,
+    walletName: string,
 }
 
 type IdentityItemType = {
@@ -20,8 +22,8 @@ type IdentityItemType = {
     label: string
 }
 
-const CreateAssetModal = ({ createdNewAsset, walletId }: CreateAssetModal) => {
-    const { state } = useAppContext()
+const CreateAssetModal = ({ createdNewAsset, walletId, walletName }: CreateAssetModal) => {
+    const { state, dispatch } = useAppContext()
 
     const [showDialog, setShowDialog] = useState<boolean>(false)
     const [identitys, setIdentitys] = useState<IdentityItemType[] | null>(null)
@@ -40,7 +42,7 @@ const CreateAssetModal = ({ createdNewAsset, walletId }: CreateAssetModal) => {
         const assetsIdentityInContextIsArray = Array.isArray(state.assetsIdentity)
 
         if (state.assetsIdentity && assetsIdentityInContextIsArray) {
-            
+
             const identitysMap = state.assetsIdentity.map((identity): IdentityItemType => {
                 return {
                     label: identity.canonicalName,
@@ -67,7 +69,11 @@ const CreateAssetModal = ({ createdNewAsset, walletId }: CreateAssetModal) => {
             return
         }
 
+        dispatch({ type: "SET_LOADING_STATE_VALUE", payload: true })
+
         const { success, data, error } = await createAsset(validate.data)
+
+        dispatch({ type: "SET_LOADING_STATE_VALUE", payload: false })
 
         if (!success) {
             Alerts.error({ title: "Error", text: error })
@@ -92,6 +98,10 @@ const CreateAssetModal = ({ createdNewAsset, walletId }: CreateAssetModal) => {
 
 
                 <DialogContent>
+                    <Badge variant={"outline"} className="text-sm text-foreground px-2 py-1">
+                        <Wallet className="!w-4 !h-4" />
+                        <span>{walletName}</span>
+                    </Badge>
                     <form onSubmit={handleCreateAssetButton}>
                         <DialogHeader className="mb-6">
                             <DialogTitle>Compre ativos</DialogTitle>
@@ -99,7 +109,6 @@ const CreateAssetModal = ({ createdNewAsset, walletId }: CreateAssetModal) => {
                                 Se o ativo já existir em sua carteira, o valor será adicionado sem problemas.
                             </DialogDescription>
                         </DialogHeader>
-
                         <div className="grid gap-4 mb-6">
                             <div className="grid gap-3">
                                 <Label htmlFor="identity">Ativo</Label>

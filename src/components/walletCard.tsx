@@ -44,7 +44,7 @@ const WalletCard = ({ countAssets, createdAt, name, type, walletId }: WalletCard
                         <span>Ver ativos</span>
                     </Button>
 
-                    <CreateAssetModal walletId={walletId}/>
+                    <CreateAssetModal walletId={walletId} walletName={name} />
                 </CardFooter>
             </Card>
         </>

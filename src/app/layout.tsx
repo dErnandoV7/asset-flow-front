@@ -1,6 +1,7 @@
 import { ThemeProvider } from "../components/theme-provider";
 import type { Metadata } from "next";
 import { AppProvider } from "./context/dataContext";
+import Loading from "@/components/loading";
 
 import "./globals.css";
 
@@ -16,7 +17,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-br" suppressHydrationWarning>
-      <body className="min-h-screen">
+      <body>
         <AppProvider>
           <ThemeProvider
             attribute="class"
@@ -24,6 +25,7 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
+            <Loading />
             {children}
           </ThemeProvider>
         </AppProvider>

@@ -3,14 +3,19 @@
 import { useReducer, createContext, ReactNode, useContext } from "react";
 import { AssetIdentity } from "../types/assetType";
 
-type Action = { type: "SET_ASSETS_IDENTITY", payload: any }
+type Action =
+    { type: "SET_ASSETS_IDENTITY", payload: any } |
+    { type: "SET_LOADING_STATE_VALUE", payload: boolean }
+
 
 interface State {
     assetsIdentity: AssetIdentity[] | null
+    loading: boolean
 }
 
 const initialState: State = {
-    assetsIdentity: null
+    assetsIdentity: null,
+    loading: false
 }
 
 const reducer = (state: State, action: Action): State => {
@@ -19,6 +24,12 @@ const reducer = (state: State, action: Action): State => {
             return {
                 ...state,
                 assetsIdentity: action.payload
+            }
+
+        case "SET_LOADING_STATE_VALUE":
+            return {
+                ...state,
+                loading: action.payload
             }
     }
 }

@@ -1,3 +1,5 @@
+"use client"
+
 import { PlusIcon } from "lucide-react"
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "../ui/dialog"
 import { Button } from "../ui/button"
@@ -15,12 +17,15 @@ import Alerts from "../sweetAlerts/alerts"
 import { createWallet } from "@/app/services/walletService"
 import { useState } from "react"
 import { CreateWallet } from "@/app/types/walletType"
+import { useAppContext } from "@/app/context/dataContext"
 
 interface CreateWalletModal {
     createdNewWallet?: () => void
 }
 
 const CreateWalletModal = ({ createdNewWallet }: CreateWalletModal) => {
+    const { dispatch } = useAppContext()
+
     const [showDialog, setShowDialog] = useState<boolean>(false)
 
     const handleCreateButton = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -39,7 +44,11 @@ const CreateWalletModal = ({ createdNewWallet }: CreateWalletModal) => {
             return
         }
 
+        dispatch({ type: "SET_LOADING_STATE_VALUE", payload: true })
+
         const { success, error } = await createWallet(data as CreateWallet)
+
+        dispatch({ type: "SET_LOADING_STATE_VALUE", payload: false })
 
         if (!success) {
             Alerts.error({ title: "Erro", text: error })

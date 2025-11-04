@@ -10,15 +10,21 @@ import { Wallet as WalletType } from "@/app/types/walletType"
 import { AssetIdentity } from "@/app/types/assetType"
 import Alerts from "@/components/sweetAlerts/alerts"
 import { useAppContext } from "@/app/context/dataContext"
+import LoadingWallet from "@/components/loadingElement"
 
 export default function WalletPage() {
-    const { dispatch, state } = useAppContext()
+    const { dispatch } = useAppContext()
 
     const [wallets, setWallets] = useState<WalletType[] | null>(null)
     const [identitys, setIdentitys] = useState<AssetIdentity[] | null>(null)
+    const [loading, setElement] = useState<boolean>(false)
 
     const getWallets = async () => {
+        setElement(true)
+
         const { success, data, error } = await getWalletAll()
+
+        setElement(false)
 
         if (!success) {
             Alerts.error({ title: "Erro", text: error })
@@ -51,8 +57,8 @@ export default function WalletPage() {
     }, [])
 
     return (
-        <div className="w-full mt-14 md:mt-0 p-3">
-            <div className="max-w-[1000px] m-auto lg:mt-20">
+        <div className="w-full mt-14 md:mt-0 p-3 ">
+            <div className="max-w-[1100px] m-auto lg:mt-20">
                 <div className="border-b-2 border-secondary pb-3 mb-4">
                     <div className="flex items-center justify-between">
                         <div className="flex items-center gap-2.5 text-3xl mb-2">
@@ -70,6 +76,7 @@ export default function WalletPage() {
                             <WalletCard key={idx} countAssets={wallet.countAsset} createdAt={wallet.createdAt} name={wallet.name} type={wallet.typeMasq} walletId={wallet.id} />
                         )
                     })}
+                    {loading && <LoadingWallet />}
                 </div>
             </div>
         </div>
