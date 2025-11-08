@@ -1,43 +1,54 @@
 "use client"
 
-import { ColumnDef } from "@tanstack/react-table"
+import { JSX } from "react"
 
 export type Asset = {
     type: string,
     walletName: string,
     quantity: number,
     purchasePrice: string,
-    rendimento: number
+    rendimento: number,
 }
 
-export const columns: ColumnDef<Asset>[] = [
+export type ColumnType = { accessorKey: string, header: string, show: boolean, jsx?: any }
+
+export const ColumnsAssets: ColumnType[] = [
     {
         accessorKey: "type",
         header: "Tipo",
+        show: true
     },
     {
         accessorKey: "walletName",
         header: "Carteira",
+        show: true
     },
     {
         accessorKey: "quantity",
         header: "Quantidade",
+        show: true
     },
     {
         accessorKey: "purchasePrice",
         header: "Vlr méd. unit.",
+        show: true
     },
     {
         accessorKey: "rendimento",
         header: "Rendimento",
-        cell: ({ row }) => {
-            const rendimento = parseFloat(row.getValue("rendimento"))
+        show: true,
+        jsx: (cell: string): JSX.Element => {
+            const rendimento = parseFloat(cell)
+            const rendimentoFormatado = Number(rendimento.toFixed(2))
 
             return <p className={`text-gray-400 font-bold ${rendimento > 0 ? "text-green-500" : "text-red-500"}`}>
-                {rendimento.toLocaleString("pt-BR", {
-                    style: "percent",
-                })}
+                {rendimentoFormatado}%
             </p>
         }
+    },
+    {
+        accessorKey: "actions",
+        header: "Ações",
+        show: true
     }
 ]

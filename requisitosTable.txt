@@ -1,0 +1,7 @@
+table precisa:
+ter os dados
+ter as colunas
+
+opção de esconder coluna ->
+- aplicar valor false para prop show em cada coluna
+- na exibição de cada linha, verificar se a coluna.show esta como verdadeiro, se não, não exibir aquela linha

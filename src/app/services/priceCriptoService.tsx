@@ -11,7 +11,9 @@ export const getCriptWithValue = async (ids: string): Promise<ApiResponse<any>> 
             }
         })
 
-        return { success: true, data: res.data }
+        const ObjToArrayData = Object.entries(res.data)
+
+        return { success: true, data: ObjToArrayData }
 
     } catch (error) {
         return { success: false, error: "Erro ao buscar valores de CRIPTOS" }

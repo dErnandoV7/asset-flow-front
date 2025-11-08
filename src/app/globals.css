@@ -125,3 +125,7 @@
 * {
   font-family: "Poppins", sans-serif !important;
 }
+
+*::-webkit-scrollbar {
+  display: none;
+}

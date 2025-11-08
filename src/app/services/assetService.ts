@@ -4,12 +4,30 @@ import { createAssetType } from "../schemas/assetSchema"
 import { ApiResponse } from "../types/apiResponse"
 import { Asset } from "../types/assetType"
 
-export const getAssetsAll = async (): Promise<ApiResponse<Asset>> => {
+export type AssetOrderByType = "quantity" | "purchasePrice"
+export type AssetFilterType = "investment" | "savings" | "checking"
+
+interface getAssetsAllProps {
+    search?: string,
+    orderBy?: AssetOrderByType,
+    direction?: "asc" | "desc",
+    filter?: AssetFilterType,
+    walletId?: string
+}
+
+export const getAssetsAll = async ({ orderBy, search, direction, filter, walletId }: getAssetsAllProps): Promise<ApiResponse<Asset>> => {
     const token = getTokenInCookie()
 
     try {
-        const res = await apiBack.get("assets", {
-            params: {},
+        
+        const res = await apiBack.get(`assets`, {
+            params: {
+                search,
+                orderBy,
+                direction: direction || "desc",
+                walletType: filter,
+                walletId
+            },
             headers: {
                 Authorization: `Bearer ${token}`
             }
