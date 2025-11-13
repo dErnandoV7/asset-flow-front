@@ -17,18 +17,24 @@ import { Wallet } from "@/app/types/walletType"
 import { Button } from "@/components/ui/button"
 import { Activity } from "react"
 import { Separator } from "@/components/ui/separator"
+import { usePathname, useRouter, useSearchParams } from "next/navigation"
 
 export default function AssetsPage() {
+    const router = useRouter()
+    const pathname = usePathname()
+    const params = useSearchParams()
+
     const [assets, setAssets] = useState<Asset[] | null>(null)
     const [wallets, setWallets] = useState<Wallet[] | null>(null)
     const [columnsState, setColumnsState] = useState<ColumnType[]>(() => ColumnsAssets.map((column) => ({ ...column })))
+    const [dataCripto, setDataCripto] = useState<any[]>([])
+    const [loading, setLoading] = useState<boolean>(true)
+    const [filtersOpen, setFiltersOpen] = useState(false)
+
     const [search, setSearch] = useState("")
     const [orderBy, setOrderBy] = useState<AssetOrderByType | undefined>(undefined)
     const [filter, setFilter] = useState<AssetFilterType | undefined>(undefined)
     const [walletId, setWalletId] = useState<string | undefined>(undefined)
-    const [dataCripto, setDataCripto] = useState<any[]>([])
-    const [loading, setLoading] = useState<boolean>(true)
-    const [filtersOpen, setFiltersOpen] = useState(false)
 
     const getWallets = async () => {
         const { success, data, error } = await getWalletAll()
@@ -101,16 +107,49 @@ export default function AssetsPage() {
     }
 
     useEffect(() => {
+        const srch = params.get("search")
+        const ordrBy = params.get("orderBy")
+        const fltr = params.get("filter")
+        const wlltId = params.get("walletId")
+
+        const orderValid = ordrBy && (ordrBy === "quantity" || ordrBy === "purchasePrice")
+        const filterValid = fltr && (fltr === "investment" || fltr === "savings" || fltr === "checking")
+
+        if (srch?.trim()) setSearch(srch)
+        if (orderValid) setOrderBy(ordrBy)
+        if (filterValid) setFilter(fltr)
+        if (wlltId) setWalletId(wlltId)
+
+    }, [])
+
+
+    useEffect(() => {
         getWallets()
     }, [])
 
     useEffect(() => {
         const timeout = setTimeout(() => {
+            const params_ = new URLSearchParams()
+            const sanitizedSearch = search.trim()
+
+            if (sanitizedSearch) params_.set("search", sanitizedSearch)
+            if (orderBy) params_.set("orderBy", orderBy)
+            if (filter) params_.set("filter", filter)
+            if (walletId) params_.set("walletId", walletId)
+
+            const queryString = params_.toString()
+
+            if (queryString) {
+                router.replace(`${pathname}?${queryString}`)
+            } else {
+                router.replace(pathname)
+            }
+
             getAssets()
         }, 300);
 
         return () => clearTimeout(timeout)
-    }, [search, orderBy, filter, walletId])
+    }, [search, orderBy, filter, walletId, pathname, router])
 
     return (
         <div className="w-full mt-14 md:mt-0 p-3">

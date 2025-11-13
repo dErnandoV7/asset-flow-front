@@ -2,6 +2,7 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "./ui/card"
 import { Wallet, Logs } from "lucide-react"
 import { Badge } from "./ui/badge"
 import { Button } from "./ui/button"
+import { useRouter } from "next/navigation"
 import CreateAssetModal from "@/components/modal/createAssetModal"
 
 interface WalletCard {
@@ -13,6 +14,7 @@ interface WalletCard {
 }
 
 const WalletCard = ({ countAssets, createdAt, name, type, walletId }: WalletCard) => {
+    const router = useRouter()
 
     return (
         <>
@@ -39,7 +41,7 @@ const WalletCard = ({ countAssets, createdAt, name, type, walletId }: WalletCard
                 </CardContent>
 
                 <CardFooter className="flex gap-2">
-                    <Button variant={"secondary"} className="flex justify-center items-center p-2 py-1 text-xs cursor-pointer">
+                    <Button variant={"secondary"} className="flex justify-center items-center p-2 py-1 text-xs cursor-pointer" onClick={() => router.push(`/asset?walletId=${walletId}`)}>
                         <Logs />
                         <span>Ver ativos</span>
                     </Button>
