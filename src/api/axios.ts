@@ -1,7 +1,8 @@
 import axios from "axios";
 
 export const apiBack = axios.create({
-    baseURL: "http://localhost:3030",
+    baseURL: "https://assetflowback.onrender.com",
+    // baseURL: "http://localhost:3030",
     headers: {
         "Content-Type": "application/json",
     },
