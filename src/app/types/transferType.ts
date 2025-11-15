@@ -1,0 +1,1 @@
+export type typeTransferType = "buy" | "sell" | "transfer"

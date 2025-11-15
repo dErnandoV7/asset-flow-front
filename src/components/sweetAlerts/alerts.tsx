@@ -15,7 +15,7 @@ interface AlertOptions {
 
 const textList = (msgs: string[]): ReactElement => {
     return (
-        <div className="flex flex-col ">
+        <div className="flex flex-col text-foreground">
             {msgs && msgs.map((txt, index) => (
                 <p key={index}>{txt}</p>
             ))}
@@ -23,13 +23,29 @@ const textList = (msgs: string[]): ReactElement => {
     )
 }
 
+const getAlertTheme = () => {
+    if (typeof window === "undefined") {
+        return { background: undefined, color: undefined }
+    }
+
+    const styles = getComputedStyle(document.documentElement)
+    const background = styles.getPropertyValue("--background").trim()
+    const color = styles.getPropertyValue("--foreground").trim()
+
+    return {
+        background: background || undefined,
+        color: color || undefined,
+    }
+}
+
 const Alerts = {
     success: ({ title = "Sucesso!", text = "", timer = 2000 }: AlertOptions = {}) => {
+        const { background, color } = getAlertTheme()
         const options: ReactSweetAlertOptions = {
             title,
             icon: "success",
-            background: "background",
-            color: "white",
+            background,
+            color,
             confirmButtonColor: "#10b981",
             timer,
             timerProgressBar: true,
@@ -57,11 +73,13 @@ const Alerts = {
 
         const isString = typeof alertText === 'string';
 
+        const { background, color } = getAlertTheme()
+
         const options: ReactSweetAlertOptions = {
             title,
             icon: "error",
-            background: "background",
-            color: "white",
+            background,
+            color,
             confirmButtonColor: "#ef4444",
             timer,
             timerProgressBar: true,

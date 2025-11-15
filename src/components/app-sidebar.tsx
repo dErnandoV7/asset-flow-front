@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation"
 import { resetTokenInCookie } from "@/app/utils/cookiesUtil"
 
 const menus = [
-    { name: "Perfil", icon: User, path: "/perfil" },
+    { name: "Perfil", icon: User, path: "/profile" },
     { name: "Carterias", icon: Wallet, path: "/" },
     { name: "Ativos", icon: CircleDollarSign, path: "/asset" },
     { name: "Transferências", icon: Logs, path: "/transfers" },

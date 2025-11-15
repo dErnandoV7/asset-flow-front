@@ -23,7 +23,7 @@ const getSkeletonWidth = (accessorKey: string) => {
     }
 }
 
-const LoadingAsset = () => {
+const LoadingTable = () => {
     return (
         <div className="overflow-hidden rounded-xl border mt-2">
             <Table>
@@ -56,4 +56,4 @@ const LoadingAsset = () => {
     )
 }
 
-export default LoadingAsset
+export default LoadingTable

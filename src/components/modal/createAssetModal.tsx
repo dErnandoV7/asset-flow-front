@@ -1,4 +1,4 @@
-import { CircleDollarSign, Wallet } from "lucide-react"
+import { CircleDollarSign, Wallet, WalletIcon } from "lucide-react"
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "../ui/dialog"
 import { Button } from "../ui/button"
 import { Input } from "@/components/ui/input"
@@ -140,10 +140,10 @@ const CreateAssetModal = ({
                 )}
 
                 <DialogContent>
-                    <Badge variant={"outline"} className="text-sm text-foreground px-2 py-1">
-                        <Wallet className="w-4! h-4!" />
-                        <span>{walletName}</span>
-                    </Badge>
+                <Badge variant="outline" className="mb-4 flex w-fit items-center gap-2 px-2 py-1 text-sm text-foreground">
+                    <WalletIcon className="h-4 w-4" />
+                    <span>{walletName}</span>
+                </Badge>
                     <form onSubmit={handleCreateAssetButton}>
                         <DialogHeader className="mb-6">
                             <DialogTitle>Compre ativos</DialogTitle>

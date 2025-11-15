@@ -3,6 +3,7 @@
 import { JSX } from "react"
 
 export type Asset = {
+    id: number,
     type: string,
     walletName: string,
     quantity: number,

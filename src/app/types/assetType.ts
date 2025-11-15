@@ -5,6 +5,7 @@ export type AssetIdentity = {
 }
 
 export type Asset = {
+    id: number,
     purchasePrice: number,
     quantity: number,
     type: string,

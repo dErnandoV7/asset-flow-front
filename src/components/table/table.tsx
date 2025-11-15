@@ -24,7 +24,7 @@ export function DataTable({ columns, data, onBuy, onSell, onTransfer }: DataTabl
             {columns && columns.map((column, idx) => {
               if (!column.show) return
               return (
-                <TableCell key={idx}>
+                <TableCell key={idx} className="font-semibold">
                   {column.header}
                 </TableCell>
               )
@@ -45,7 +45,8 @@ export function DataTable({ columns, data, onBuy, onSell, onTransfer }: DataTabl
                       <TableCell key={`${column.accessorKey}-${idx_}`}>
                         <DropdownMenu dir="rtl">
                           <DropdownMenuTrigger asChild>
-                            <Button className="cursor-pointer bg-card/40 hover:bg-secondary" type="button">
+                            <Button className="cursor-pointer 
+                           bg-foreground dark:bg-card/40" type="button" >
                               <Settings2 className="h-5! w-5!" />
                             </Button>
                           </DropdownMenuTrigger>
@@ -83,7 +84,7 @@ export function DataTable({ columns, data, onBuy, onSell, onTransfer }: DataTabl
                   const isJsxElement = column.jsx
 
                   return (
-                    <TableCell className="capitalize" key={`${column.accessorKey}-${idx_}`}>
+                    <TableCell className="capitalize text-secondary-foreground/90" key={`${column.accessorKey}-${idx_}`}>
                       {isJsxElement ? column.jsx(selected[1]) : selected[1]}
                     </TableCell>
                   )
